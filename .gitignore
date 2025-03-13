@@ -1,0 +1,60 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environment
+venv/
+.env/
+.venv/
+
+# FastAPI specific
+instance/
+*.log
+
+# Selenium related
+selenium-screenshots/
+chromedriver.log
+geckodriver.log
+
+# Editor files
+.vscode/
+.idea/
+*.swp
+
+# Cache files
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Distribution / packaging
+dist/
+build/
+*.egg-info/
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints/
+
+# Docker
+**/docker-compose.override.yml
+**/docker-compose.override.yaml
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+
+# Pytest / Testing
+tests/.pytest_cache/
+.coverage
+htmlcov/
+
+# MyPy
+typecheck/
+.mypy_cache/
+
+# Logs
+logs/
+*.log
+
+# Temporary files
+*.bak
+*.tmp

@@ -1,0 +1,16 @@
+[tool.poetry]
+name = "subway-location-tracker-backend"
+version = "0.1.0"
+description = ""
+authors = ["LIM SHENG XUE <limshengxue0820@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = ">=3.9"
+selenium = "^4.29.0"
+webdriver-manager = "^4.0.2"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
