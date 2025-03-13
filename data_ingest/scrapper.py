@@ -1,3 +1,4 @@
+from uuid import uuid4
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.service import Service
@@ -6,7 +7,7 @@ from selenium.webdriver.support import expected_conditions as EC
 from webdriver_manager.chrome import ChromeDriverManager
 from selenium.common.exceptions import UnexpectedAlertPresentException, NoAlertPresentException
 
-from models.outlet import Outlet
+from models.models import Outlet
 
 url = "https://subway.com.my/find-a-subway"
 input_id = "fp_searchAddress"
@@ -61,7 +62,7 @@ def scrape_data(headless=True):
                 # handle empty address
                 if not address:
                     address = None
-                    
+
                 # Extract latitude and longitude
                 latitude = element.get_attribute("data-latitude")
                 longitude = element.get_attribute("data-longitude")
@@ -82,6 +83,7 @@ def scrape_data(headless=True):
                 waze_link = fix_duplicated_link(waze_link)
 
                 result  = Outlet(
+                    id = uuid4(),
                     name=name,
                     address=address,
                     operating_hours=operating_hours,

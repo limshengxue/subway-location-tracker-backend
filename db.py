@@ -1,8 +1,10 @@
+from dotenv import load_dotenv
 from sqlmodel import Session, create_engine, SQLModel
 import os
 
-DB_URL = os.getenv("DB_URL")
-
+load_dotenv()
+DB_URL = os.getenv("DB_CONN")
+print(DB_URL)
 engine = create_engine(DB_URL)
 
 def get_db():
