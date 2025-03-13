@@ -15,6 +15,7 @@ numpy = "^2.2.3"
 geopy = "^2.4.1"
 fastapi = {extras = ["standard"], version = "^0.115.11"}
 pandas = "^2.2.3"
+apscheduler = "^3.11.0"
 
 
 [build-system]

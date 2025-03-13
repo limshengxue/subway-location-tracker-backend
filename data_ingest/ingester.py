@@ -8,9 +8,6 @@ from db import get_db, engine
 from models.models import LatestUpdatedTimestamp
 
 def ingest_data():
-    # Get session
-    get_db() # TODO: Remove this line, place in startup of web server
-
     # Scrape data
     results = scrape_data()
     
