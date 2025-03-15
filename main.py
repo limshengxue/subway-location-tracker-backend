@@ -6,9 +6,8 @@ from datetime import datetime, timedelta
 from data_ingest.ingester import ingest_data
 from db import get_db, get_session, engine
 from models.models import Outlet, LatestUpdatedTimestamp
-from dto.outlets import OutletDTO
+from dto.outlets import OutletInfoDTO
 
-app = FastAPI()
 scheduler = BackgroundScheduler()
 
 def should_ingest(session: Session) -> bool:
@@ -39,11 +38,18 @@ async def app_lifespan(app: FastAPI):
     yield  
     # Shut down the scheduler when the app is shutting down
     scheduler.shutdown() 
+    print("Scheduler shut down...")
 
 # Define app
 app = FastAPI(lifespan=app_lifespan)
 
 @app.get("/outlets")
-async def get_outlets(session: Session = Depends(get_session)) -> list[OutletDTO]:
+async def get_outlets(session: Session = Depends(get_session)) -> OutletInfoDTO:
     outlets = session.exec(select(Outlet)).all()
-    return outlets
+    latest_updated_timestamp = session.exec(select(LatestUpdatedTimestamp)).first()
+
+    return {
+        "outlets": outlets,
+        "last_updated": latest_updated_timestamp.timestamp if latest_updated_timestamp else None
+    }
+    

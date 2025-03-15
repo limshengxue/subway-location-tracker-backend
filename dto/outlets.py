@@ -1,3 +1,4 @@
+from datetime import datetime
 from pydantic import BaseModel
 from typing import List, Optional
 
@@ -20,4 +21,8 @@ class OutletDTO(BaseModel):
     operating_hours: Optional[str] = None
     waze_link: str 
     all_overlapping: List[OverlappingOutletsDTO] = []
+
+class OutletInfoDTO(BaseModel):
+    outlets: List[OutletDTO]
+    last_updated: datetime
 
