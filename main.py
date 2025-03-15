@@ -61,9 +61,9 @@ class QAInput(BaseModel):
     query: str
     
 @app.post("/qa")
-async def qa(input: QAInput) -> str:
+async def qa(input: QAInput):
     qa_agent = QAAgent()
-    return qa_agent.invoke(input.query)
+    return {"answer" : qa_agent.invoke(input.query)}
 
 @app.get("/test")
 def get_distance_between_two_outlets():
