@@ -1,5 +1,5 @@
+from datetime import datetime
 import os
-import numpy as np
 from sqlmodel import Session, select, text
 
 from data_ingest.distance_compute import compute_distance_matrix
@@ -17,8 +17,8 @@ def ingest_data():
     # Persist Data
     with Session(engine) as session:
         # Remove existing data
-        session.exec(text('DELETE FROM outlet'))
         session.exec(text('DELETE FROM overlappingoutlet'))
+        session.exec(text('DELETE FROM outlet'))
         
         # Add new data
         session.add_all(results)
@@ -27,14 +27,14 @@ def ingest_data():
         # Update the latest updated_at timestamp
         latest_updated_timestamp = session.exec(select(LatestUpdatedTimestamp)).first()
         if latest_updated_timestamp is None:
-            latest_updated_timestamp = LatestUpdatedTimestamp(timestamp=str(np.datetime64('now')))
+            latest_updated_timestamp = LatestUpdatedTimestamp(timestamp=datetime.now().isoformat())
             session.add(latest_updated_timestamp)
         else:
-            latest_updated_timestamp.timestamp = str(np.datetime64('now'))
+            latest_updated_timestamp.timestamp = datetime.now().isoformat()
 
         session.commit()
 
-        # Persist the numpy matrix
+        # Persist the df matrix
         file_path = os.getenv("DISTANCE_MATRIX_FILE_PATH")
         distance_matrix.to_csv(file_path)
 

@@ -6,16 +6,16 @@ authors = ["LIM SHENG XUE <limshengxue0820@gmail.com>"]
 readme = "README.md"
 
 [tool.poetry.dependencies]
-python = ">=3.10"
+python = ">=3.9,<4.0"
 selenium = "^4.29.0"
 webdriver-manager = "^4.0.2"
 sqlmodel = "^0.0.24"
 pymysql = "^1.1.1"
-numpy = "^2.2.3"
 geopy = "^2.4.1"
 fastapi = {extras = ["standard"], version = "^0.115.11"}
 pandas = "^2.2.3"
 apscheduler = "^3.11.0"
+langchain-openai = "^0.3.8"
 
 
 [build-system]
