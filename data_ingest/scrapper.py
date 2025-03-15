@@ -83,7 +83,7 @@ def scrape_data(headless=True):
                 waze_link = fix_duplicated_link(waze_link)
 
                 result  = Outlet(
-                    id = uuid4(),
+                    id = str(uuid4()),
                     name=name,
                     address=address,
                     operating_hours=operating_hours,

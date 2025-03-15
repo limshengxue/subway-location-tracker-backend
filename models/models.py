@@ -1,3 +1,4 @@
+from datetime import time as dt_time
 from sqlmodel import TEXT, Column, Relationship, SQLModel, Field
 from typing import List, Optional
 
@@ -25,6 +26,12 @@ class Outlet(SQLModel, table=True):
     def all_overlapping(self) -> List["OverlappingOutlet"]:
         return self.overlapping_as_outlet1 + self.overlapping_as_outlet2
 
+    operating_hours_list: List["OutletOperatingHours"] = Relationship(
+        back_populates="outlet",
+        sa_relationship_kwargs={"foreign_keys": "[OutletOperatingHours.outlet_id]"}
+    )
+
+
 class OverlappingOutlet(SQLModel, table=True):
     id: int = Field(default=None, primary_key=True)  
     outlet1_id: str = Field(foreign_key="outlet.id")
@@ -45,3 +52,30 @@ class OverlappingOutlet(SQLModel, table=True):
 class LatestUpdatedTimestamp(SQLModel, table=True):
     id: int = Field(default=None, primary_key=True)  
     timestamp: str
+
+class OutletOperatingHours(SQLModel, table=True):
+    id: int = Field(default=None, primary_key=True)
+    outlet_id: str = Field(foreign_key="outlet.id")
+    
+    outlet: "Outlet" = Relationship(
+        back_populates="operating_hours_list",
+        sa_relationship_kwargs={"foreign_keys": "OutletOperatingHours.outlet_id"}
+    )
+
+    mon_open: dt_time | None = Field(None, description="Monday opening time (HH:MM format)")
+    mon_close: dt_time | None = Field(None, description="Monday closing time (HH:MM format)")
+    tue_open: dt_time | None = Field(None, description="Tuesday opening time (HH:MM format)")
+    tue_close: dt_time | None = Field(None, description="Tuesday closing time (HH:MM format)")
+    wed_open: dt_time | None = Field(None, description="Wednesday opening time (HH:MM format)")
+    wed_close: dt_time | None = Field(None, description="Wednesday closing time (HH:MM format)")
+    thu_open: dt_time | None = Field(None, description="Thursday opening time (HH:MM format)")
+    thu_close: dt_time | None = Field(None, description="Thursday closing time (HH:MM format)")
+    fri_open: dt_time | None = Field(None, description="Friday opening time (HH:MM format)")
+    fri_close: dt_time | None = Field(None, description="Friday closing time (HH:MM format)")
+    sat_open: dt_time | None = Field(None, description="Saturday opening time (HH:MM format)")
+    sat_close: dt_time | None = Field(None, description="Saturday closing time (HH:MM format)")
+    sun_open: dt_time | None = Field(None, description="Sunday opening time (HH:MM format)")
+    sun_close: dt_time | None = Field(None, description="Sunday closing time (HH:MM format)")
+    public_holiday_open: dt_time | None = Field(None, description="Public holiday opening time (HH:MM format)")
+    public_holiday_close: dt_time | None = Field(None, description="Public holiday closing time (HH:MM format)")
+
