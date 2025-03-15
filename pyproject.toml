@@ -16,6 +16,9 @@ fastapi = {extras = ["standard"], version = "^0.115.11"}
 pandas = "^2.2.3"
 apscheduler = "^3.11.0"
 langchain-openai = "^0.3.8"
+langchain = "^0.3.20"
+langchain-experimental = "^0.3.4"
+langgraph = "^0.3.11"
 
 
 [build-system]

@@ -1,12 +1,16 @@
 from fastapi import Depends, FastAPI, BackgroundTasks
+from pydantic import BaseModel
 from sqlmodel import Session, select
 from apscheduler.schedulers.background import BackgroundScheduler
 from apscheduler.triggers.interval import IntervalTrigger
 from datetime import datetime, timedelta
 from data_ingest.ingester import ingest_data
 from db import get_db, get_session, engine
+from llm.llm import QAAgent
 from models.models import Outlet, LatestUpdatedTimestamp
 from dto.outlets import OutletInfoDTO
+import pandas as pd
+import os
 
 scheduler = BackgroundScheduler()
 
@@ -52,4 +56,17 @@ async def get_outlets(session: Session = Depends(get_session)) -> OutletInfoDTO:
         "outlets": outlets,
         "last_updated": latest_updated_timestamp.timestamp if latest_updated_timestamp else None
     }
+
+class QAInput(BaseModel):
+    query: str
     
+@app.post("/qa")
+async def qa(input: QAInput) -> str:
+    qa_agent = QAAgent()
+    return qa_agent.invoke(input.query)
+
+@app.get("/test")
+def get_distance_between_two_outlets():
+    df = pd.read_csv(os.getenv("DISTANCE_MATRIX_FILE_PATH"), index_col=0)
+    print(df)
+    return df.at['05f39d40-b805-4de8-949a-cc17fbe5cbdd', '07e89abc-8960-4bf9-b9bc-3994dd74ac17']
