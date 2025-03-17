@@ -2,7 +2,6 @@ import os
 from langchain_community.utilities import SQLDatabase
 from langchain_core.tools import tool
 from langchain_community.agent_toolkits import SQLDatabaseToolkit
-from langchain_core.messages import SystemMessage
 from langgraph.prebuilt import create_react_agent
 import pandas as pd
 from langchain_openai import ChatOpenAI

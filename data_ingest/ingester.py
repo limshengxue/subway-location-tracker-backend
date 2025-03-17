@@ -5,7 +5,7 @@ from sqlmodel import Session, select, text
 from data_ingest.distance_compute import compute_distance_matrix
 from data_ingest.preprocess_op_hours import preprocess_op_hours
 from .scrapper import scrape_data
-from db import get_db, engine
+from db import engine
 from models.models import LatestUpdatedTimestamp
 
 def ingest_data():

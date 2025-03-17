@@ -4,7 +4,7 @@ from typing import List
 from models.models import Outlet, OverlappingOutlet
 
 def compute_distance_matrix(outlets: List[Outlet]):
-    # Create a sorted list of unique outlet IDs
+    # Create a list of outlet IDs
     outlet_ids = [outlet.id for outlet in outlets]
     
     # Initialize an empty DataFrame for the distance matrix
@@ -13,7 +13,7 @@ def compute_distance_matrix(outlets: List[Outlet]):
     
     for i, outlet1 in enumerate(outlets):
         for j, outlet2 in enumerate(outlets):
-            if i < j:  # Only upper triangle
+            if i < j:  # Only upper triangle (symmetric)
                 coord1 = (outlet1.latitude, outlet1.longitude)
                 coord2 = (outlet2.latitude, outlet2.longitude)
                 
@@ -23,6 +23,7 @@ def compute_distance_matrix(outlets: List[Outlet]):
                 distance_matrix.at[outlet1.id, outlet2.id] = distance
                 distance_matrix.at[outlet2.id, outlet1.id] = distance
                 
+                # check for overlapping radius catchment (5km)
                 if distance < 5.0:
                     overlapping_outlets.append(
                         OverlappingOutlet(
