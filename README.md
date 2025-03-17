@@ -52,7 +52,7 @@ This program helps users search for Subway outlets based on address or name. It 
   - Since distance computation has a complexity of O(n^2), persisting this data optimizes performance by trading storage for processing speed.
 - To detect 5 KM radius catchment overlaps efficiently, a potential optimization technique is to sort outlets by geocoordinates and implement early stopping.
 ![alt text](<assets/Potential Early Stopping Distance Computation.png>)
-- However, this method would prevent full distance computations between outlets, limiting LLM capabilities in answering related queries.
+- However, this method would prevent distance computations between all outlets, limiting LLM capabilities in answering related queries.
 - Therefore, full computation is used.
 - The computed distances are stored as a pandas DataFrame, allowing indexing based on outlet IDs.
 
@@ -63,7 +63,7 @@ This program helps users search for Subway outlets based on address or name. It 
 ## 2.4 LLM Development
 - An LLM agent is developed to answer queries about the outlets.
 - We utilize LangGraph's ReACT agent, as ReACT is a prompt engineering technique that enables effective interaction with external environments (in this case, the SQL database).
-- The agent is equipped with a toolkit to access the SQL database.
+- The agent is equipped with a toolkit to access the SQL database, with 2 additional tools to retrieve distance between outlets and obtain the current datetime.
 
 ### Why Use an SQL Agent?
 - Compared to RAG, using an SQL agent allows the LLM to issue SQL queries that include aggregate functions like COUNT and GREATEST.
